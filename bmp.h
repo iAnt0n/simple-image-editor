@@ -5,7 +5,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define FOR_BMP_HEADER( FOR_FIELD ) \
+#include "image.h"
+
+#define FOR_BMP_HEADER(FOR_FIELD) \
         FOR_FIELD( uint16_t,bfType)\
         FOR_FIELD( uint32_t,bfileSize)\
         FOR_FIELD( uint32_t,bfReserved)\
@@ -22,15 +24,35 @@
         FOR_FIELD( uint32_t,biClrUsed)\
         FOR_FIELD( uint32_t,biClrImportant)
 
-#define DECLARE_FIELD( t, n ) t n ;
+#define DECLARE_FIELD(t, n) t n ;
 
-struct __attribute__((packed)) bmp_header 
-{
-   FOR_BMP_HEADER( DECLARE_FIELD )
+struct __attribute__((packed)) bmp_header {
+    FOR_BMP_HEADER(DECLARE_FIELD)
 };
 
+#define BMP_SIGNATURE 0x4D42
+#define BITS_PER_COLOR 24
+#define INFO_HEADER_SIZE 40
+#define PLANES_NUMBER 1
 
-void bmp_header_print( struct bmp_header const* header, FILE* f );
-bool read_header_from_file( const char* filename, struct bmp_header* header );
+/*  deserializer   */
+enum read_status {
+    READ_OK = 0,
+    READ_INVALID_SIGNATURE,
+    READ_INVALID_BITS,
+    READ_INVALID_HEADER
+    /* коды других ошибок  */
+};
+
+enum read_status from_bmp(FILE* in, struct image* img);
+
+/*  serializer   */
+enum write_status {
+    WRITE_OK = 0,
+    WRITE_ERROR
+    /* коды других ошибок  */
+};
+
+enum write_status to_bmp(FILE* out, struct image const* img);
 
 #endif
