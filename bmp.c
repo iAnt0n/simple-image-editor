@@ -47,6 +47,7 @@ enum read_status from_bmp(FILE* in, struct image* img) {
     const size_t gap = header.bOffBits - sizeof(header);
 
     if (fseek(in, gap, SEEK_CUR) != 0) {
+        image_destroy(img);
         return READ_INVALID_BITS;
     }
 
@@ -93,10 +94,11 @@ enum write_status to_bmp(FILE* out, const struct image* img) {
     const size_t padding = calc_padding(img->width);
     const uint8_t zero = 0;
 
-    fwrite(&header, sizeof(struct bmp_header), 1, out);
+    if (fwrite(&header, sizeof(struct bmp_header), 1, out) < 1) return WRITE_ERROR;
     for (size_t i = 0; i < header.biHeight; i++) {
-        fwrite(&img->data[i * header.biWidth], sizeof(struct pixel), header.biWidth, out);
-        fwrite(&zero, padding, 1, out);
+        if ( fwrite(&img->data[i * header.biWidth], sizeof(struct pixel), header.biWidth, out)
+             < sizeof(struct pixel) * header.biWidth) return WRITE_ERROR;
+        if (fwrite(&zero, padding, 1, out) < 1) return WRITE_ERROR;
     }
     return WRITE_OK;
 
