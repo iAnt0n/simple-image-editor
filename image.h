@@ -1,5 +1,5 @@
-#ifndef ASSIGNMENT_IMAGE_ROTATION_IMAGE_H
-#define ASSIGNMENT_IMAGE_ROTATION_IMAGE_H
+#ifndef _IMAGE_H_
+#define _IMAGE_H_
 
 #include <stdint.h>
 
@@ -18,4 +18,4 @@ struct image image_create(uint32_t width, uint32_t height);
 
 void image_destroy(const struct image* image);
 
-#endif //ASSIGNMENT_IMAGE_ROTATION_IMAGE_H
+#endif //_IMAGE_H_
