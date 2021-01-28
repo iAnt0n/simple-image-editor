@@ -1,6 +1,5 @@
 #include "bmp.h"
 
-#include <inttypes.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <malloc.h>
@@ -96,8 +95,8 @@ enum write_status to_bmp(FILE* out, const struct image* img) {
 
     if (fwrite(&header, sizeof(struct bmp_header), 1, out) < 1) return WRITE_ERROR;
     for (size_t i = 0; i < header.biHeight; i++) {
-        if ( fwrite(&img->data[i * header.biWidth], sizeof(struct pixel), header.biWidth, out)
-             < sizeof(struct pixel) * header.biWidth) return WRITE_ERROR;
+        if (fwrite(&img->data[i * header.biWidth], sizeof(struct pixel), header.biWidth, out)
+            < header.biWidth) return WRITE_ERROR;
         if (fwrite(&zero, padding, 1, out) < 1) return WRITE_ERROR;
     }
     return WRITE_OK;

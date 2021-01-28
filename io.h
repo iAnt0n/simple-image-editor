@@ -21,4 +21,7 @@ enum close_status close_file(FILE** file);
 
 bool load_image_from_file(const char* filename, struct image* image, enum read_status (reader) (FILE*, struct image*));
 
+bool
+write_image_to_file(const char* filename, const struct image* image, enum write_status (writer)(FILE*, const struct image*));
+
 #endif //_IO_H_
