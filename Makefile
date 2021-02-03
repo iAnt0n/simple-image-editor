@@ -3,7 +3,7 @@ CC=gcc
 
 all: img_edit
 
-bmp.o: bmp.c
+bmp.o: formats/bmp.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 image.o: image.c
@@ -18,10 +18,10 @@ main.o: main.c
 io.o: io.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-rotate.o: rotate.c
+rotate.o: actions/rotate.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-black_and_white.o: black_and_white.c
+black_and_white.o: actions/black_and_white.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 img_edit: image.o main.o util.o bmp.o io.o rotate.o black_and_white.o
