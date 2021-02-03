@@ -8,7 +8,7 @@ static bool read_header(FILE* f, struct bmp_header* header) {
     return fread(header, sizeof(struct bmp_header), 1, f);
 }
 
-static size_t calc_padding(const uint32_t width) {
+static uint8_t calc_padding(const uint32_t width) {
     return (4 - (width * sizeof(struct pixel) % 4)) % 4;
 }
 
@@ -41,7 +41,7 @@ enum read_status from_bmp(FILE* in, struct image* img) {
 
     *img = image_create(header.biWidth, header.biHeight);
 
-    const size_t padding = calc_padding(img->width);
+    const uint8_t padding = calc_padding(img->width);
     const size_t pixel_size = sizeof(struct pixel);
     const size_t gap = header.bOffBits - sizeof(header);
 
@@ -94,7 +94,7 @@ enum write_status to_bmp(FILE* out, const struct image* img) {
     const uint8_t zero = 0;
 
     if (fwrite(&header, sizeof(struct bmp_header), 1, out) < 1) return WRITE_ERROR;
-    for (size_t i = 0; i < header.biHeight; i++) {
+    for (uint32_t i = 0; i < header.biHeight; i++) {
         if (fwrite(&img->data[i * header.biWidth], sizeof(struct pixel), header.biWidth, out)
             < header.biWidth) return WRITE_ERROR;
         if (fwrite(&zero, padding, 1, out) < 1) return WRITE_ERROR;
