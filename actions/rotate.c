@@ -9,7 +9,7 @@ struct image rotate_90(struct image src) {
 
     for (size_t i = 0; i < src.height; i++){
         for (size_t j = 0; j < src.width; j++){
-            result_image.data[result_image.width * i + j] = src.data[src.width * j + (src.width - 1 - i)];
+            result_image.data[j * result_width + result_width-i-1] = src.data[i*src.width + j];
         }
     }
     

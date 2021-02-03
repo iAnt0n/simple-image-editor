@@ -51,14 +51,14 @@ bool
 write_image_to_file(const char* filename, const struct image* image, enum write_status (writer)(FILE*, const struct image*)) {
     FILE* file = NULL;
 
-    const enum open_status output_open_status = open_file(&file, filename, "rb");
+    const enum open_status output_open_status = open_file(&file, filename, "wb");
 
     if (output_open_status != OPEN_OK) {
         err(open_error_messages[output_open_status]);
         return false;
     }
 
-    enum write_status write_status = writer(file, image);
+    const enum write_status write_status = writer(file, image);
 
     if (write_status != WRITE_OK) {
         err(write_error_messages[write_status]);

@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "../image.h"
+#include "../io.h"
 
 #define FOR_BMP_HEADER(FOR_FIELD) \
         FOR_FIELD( uint16_t,bfType)\
