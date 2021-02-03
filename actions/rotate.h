@@ -1,7 +1,7 @@
 #ifndef _ROTATE_H_
 #define _ROTATE_H_
 
-#include "image.h"
+#include "../image.h"
 
 struct image rotate_90(struct image img);
 

@@ -1,4 +1,5 @@
 #include "bmp.h"
+#include "../io.h"
 
 #include <stdio.h>
 #include <stdbool.h>
